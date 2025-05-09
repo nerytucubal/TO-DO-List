@@ -1,0 +1,7 @@
+.text-decoration-line-through-success {
+    text-decoration-line: line-through !important;
+    text-decoration-color: seagreen !important;
+}
+h2{
+    font-size: 20px;
+}
