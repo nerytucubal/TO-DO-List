@@ -23,4 +23,4 @@ Este proyecto tiene como finalidad reforzar el uso de JavaScript y la manipulaci
 
 ## 📸 Vista previa
 
-![Vista previa del TO-DO List](./img/img%20To-Do.png)
+![Vista previa del TO-DO List](./img/img%20To-DO.png)
