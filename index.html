@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/10550/10550857.png">
     <link rel="stylesheet" href="./custom.css">
 </head>
 
@@ -19,7 +20,24 @@
         <div class="row gx-2">
             <div class="col-12 col-lg-6 offset-lg-3">
                 <div class="mb-3 d-flex justify-content-center">
-                    <input type="text" id="ingreso" class="form-control rounded-4" placeholder="Ingrese la tarea" autocomplete="off">
+                    <input type="text" id="filtrobusca" class="form-control rounded-4" placeholder="filtrar"
+                        autocomplete="off">
+                </div>
+            </div>
+            <div class="col-12 col-lg-auto mb-3">
+                <select class="form-select px-3" id="filtro" aria-label="Default select example">
+                    <option value="0" selected hidden>Opciones</option>
+                    <option value="Todos">Todos</option>
+                    <option value="Completadas">Completadas</option>
+                    <option value="Pendientes">Pendientes</option>
+                </select>
+            </div>
+        </div>
+        <div class="row gx-2">  
+            <div class="col-12 col-lg-6 offset-lg-3">
+                <div class="mb-3 d-flex justify-content-center">
+                    <input type="text" id="ingreso" class="form-control rounded-4" placeholder="Ingrese la tarea"
+                        autocomplete="off">
                 </div>
             </div>
             <div class="col-12 col-lg-auto">
@@ -30,7 +48,7 @@
             <div class="col-12 col-lg-6 offset-lg-3">
                 <h2>Tareas agregadas:</h2>
                 <ul id="tarea">
-                    
+
                 </ul>
             </div>
         </div>

@@ -1,10 +1,21 @@
 let button = document.querySelector('#btn')
 let ul = document.querySelector('#tarea')
 let ingreso = document.querySelector('#ingreso')
-let body = document.querySelector('body')
+let tareas = []
+let filtro = document.querySelector('#filtro')
+let filtrobuscador = document.querySelector('#filtrobusca')
+
 const agregar = () => {
     let tarea = document.querySelector('#ingreso').value
     tarea = tarea.trim()
+
+    let nuevaTarea = {
+        texto: tarea,
+        iscompleted: false,
+        html: '',
+    }
+
+
     if (tarea.length != 0) {
         let li = document.createElement('li')
         li.classList.add('my-3')
@@ -13,7 +24,7 @@ const agregar = () => {
         let input = document.createElement('input')
         input.classList.add('form-control', 'rounded-4', 'shadow-none', 'border', 'border-primary')
         input.type = 'text'
-        input.value = tarea
+        input.value = nuevaTarea.texto
         input.setAttribute('readonly', true)
         let btn_eliminar = document.createElement('button')
         btn_eliminar.innerText = 'Eliminar'
@@ -26,15 +37,24 @@ const agregar = () => {
         div.appendChild(btn_eliminar)
         div.appendChild(btn_completado)
         ul.appendChild(li)
+        nuevaTarea.html = li
         document.querySelector('#ingreso').value = ''
 
         btn_completado.addEventListener('click', () => {
             input.classList.add('text-decoration-line-through-success', 'border', 'border-success')
             btn_completado.remove()
+            tareas = tareas.map(item => {
+                if (item.texto == input.value) {
+                    item.iscompleted = true
+                }
+                return item
+            })
         })
 
         btn_eliminar.addEventListener('click', () => {
             ul.removeChild(li)
+            tareas = tareas.filter(item => item.texto != input.value)
+            console.log(tareas)
         })
 
         btn_eliminar.addEventListener('mouseover', () => {
@@ -45,6 +65,8 @@ const agregar = () => {
             input.classList.remove('border', 'border-danger')
             input.classList.add('border-primary')
         })
+        tareas.push(nuevaTarea)
+        console.log(tareas)
     }
     else {
         ingreso.classList.add('border', 'border-danger')
@@ -52,11 +74,93 @@ const agregar = () => {
     }
 }
 
+
+const filtrotareas = (value) => {
+    let filtros = []
+    if (value == 'Pendientes') {
+        ul.innerHTML = ''
+        filtros = tareas.filter(item => item.iscompleted == false)
+        filtros.forEach(item => {
+            ul.appendChild(item.html)
+        })
+    }
+    else if (value == 'Completadas') {
+        ul.innerHTML = ''
+        filtros = tareas.filter(item => item.iscompleted == true)
+        filtros.forEach(item => {
+            ul.appendChild(item.html)
+        })
+    }
+    else {
+        filtros = tareas
+        filtros.forEach(item => {
+            ul.appendChild(item.html)
+        })
+    }
+
+    console.log(filtros)
+}
+
+const filtrotareasbusca = (value) => {
+    let busca = tareas.filter(item => item.texto.includes(value))
+    ul.innerHTML = ""
+    busca.filter(item => {
+        ul.appendChild(item.html)
+    })
+}
+
+filtrobuscador.addEventListener('keyup', (event) => {
+    filtrotareasbusca(event.target.value)
+    if(filtrobuscador.value==''){
+        filtro.value=0
+    }
+})
+
 button.addEventListener('click', () => {
     agregar()
 })
-body.addEventListener('keydown', (event) => {
+
+ingreso.addEventListener('keydown', (event) => {
     if (event.key == 'Enter') {
         agregar()
+    }
+})
+
+const changeconinput = (value) => {
+    let newfiltro = []
+    if (value == 'Pendientes') {
+        ul.innerHTML = ''
+        newfiltro = tareas.filter(item => item.texto.includes(filtrobuscador.value) && item.iscompleted == false)
+        newfiltro.forEach(item => {
+            ul.appendChild(item.html)
+        })
+    }
+    else if (value == 'Completadas') {
+        ul.innerHTML = ''
+        newfiltro = tareas.filter(item => item.texto.includes(filtrobuscador.value) && item.iscompleted == true)
+        newfiltro.forEach(item => {
+            ul.appendChild(item.html)
+        })
+    }
+    else if (value == 'Todos') {
+        ul.innerHTML = ''
+        newfiltro = tareas.filter(item => item.texto.includes(filtrobuscador.value))
+        newfiltro.forEach(item => {
+            ul.appendChild(item.html)
+        })
+    }
+    else {
+        newfiltro = tareas
+        newfiltro.forEach(item => {
+            ul.appendChild(item.html)
+        })
+    }
+}
+
+filtro.addEventListener('change', (event) => {
+    if (filtrobuscador.value == '') {
+        filtrotareas(event.target.value)
+    } else {
+        changeconinput(event.target.value)
     }
 })
